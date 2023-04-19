@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 
 class Jogo:
     def __init__(self, nome, categoria, console):
@@ -32,7 +32,19 @@ def criar():
     console = request.form['console']
     jogo = Jogo(nome, categoria, console)
     jogos.append(jogo)
-    return render_template('lista.html', titulo='Jogos', jogos=jogos)
+    return redirect('/')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/autenticar', methods=['POST',])
+def autenticar():
+    if request.form['senha'] == '1234':
+        return redirect('/')
+    else:
+        return redirect('/login')
+
 
 app.run(debug=True)
 
